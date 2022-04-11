@@ -142,6 +142,10 @@
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Wire.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Gate.cpp" />
+    <ClCompile Include="Wire.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

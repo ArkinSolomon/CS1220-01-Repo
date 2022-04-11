@@ -1,6 +1,7 @@
-// Author:  Keith A. Shomper
-// Date:    2/13/20
-// Purpose: To specify a simple, linked-list of sorted positive integers
+// Author:  Olivia Walrath and Arkin Solomon
+// Date:    4/11/20
+// Purpose: To define the funtions in the Wire class
+// 4/8/2022 -OW/AS -Defined all of the functions
 
 #ifndef GATE_H
 #define GATE_H

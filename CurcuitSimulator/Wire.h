@@ -1,6 +1,7 @@
-// Author:  Keith A. Shomper
-// Date:    2/13/20
-// Purpose: To specify a simple, linked-list of sorted positive integers
+// Author:  Olivia Walrath and Arkin Solomon
+// Date:    4/11/20
+// Purpose: To define the funtions in the Wire class
+// 4/8/2022 -OW/AS -Defined all of the functions
 
 #ifndef WIRE_H
 #define WIRE_H
@@ -13,7 +14,7 @@ class Gate;
 
 class Wire{
 public:
-	Wire(char n, int i);
+	Wire(char n, char v, int i);
 	void setValue(char v);
 	void setHistory(string s);
 	void setDrives(vector<Gate*> d);
