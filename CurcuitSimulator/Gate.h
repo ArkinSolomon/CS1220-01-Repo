@@ -16,6 +16,9 @@ public:
 	Wire* getInput(int i) const;
 	Wire* getOutput() const;
 	char evaluate() const;
+  friend char eval_and();
+  friend char eval_or();
+  friend char eval_xor();
 
 private:
 	GateType type;
@@ -23,4 +26,6 @@ private:
 	Wire* input1, * input2;
 	Wire* output;
 };
+
+char not_func(char in);
 #endif
