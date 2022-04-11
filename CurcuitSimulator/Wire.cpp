@@ -2,8 +2,10 @@
 #include <iostream>
 using namespace std;
 
-Wire::Wire(char n = '1', char v = 'X', int i) {
+Wire::Wire(int i, char n = '1', char v = 'X') {
 	index = i;
+	name = n;
+	value = v;
 }
 
 void Wire::setValue(char v) {
@@ -14,7 +16,7 @@ void Wire::setHistory(string h) {
 	history = h;
 }
 
-void Wire::setDrives(vector<Gate*> d) {
+void Wire::setDrives(vector<Gate*>& d) {
 	drives = d;
 }
 
@@ -26,7 +28,7 @@ char Wire::getValue() const{
 	return value;
 }
 
-vector<Gate*> Wire::getDrives() const {
+vector<Gate*> Wire::getDrives() const{
 	return drives;
 }
 
