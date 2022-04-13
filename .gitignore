@@ -261,3 +261,7 @@ __pycache__/
 *.pyc
 
 *.vscode/
+*.out
+**/.DS_Store
+
+*.o

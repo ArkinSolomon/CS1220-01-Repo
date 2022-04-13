@@ -3,6 +3,7 @@
 // Purpose: To define the funtions in the Gate class
 // 4/11/2022 -OW/AS -Defined all of the functions
 #include "Gate.h"
+#include "Wire.h"
 
 Gate::Gate(GateType t, int d, Wire *in1, Wire *in2, Wire *out)
 {
@@ -34,47 +35,57 @@ Wire *Gate::getOutput() const
 
 char Gate::evaluate() const
 {
-  char in1 = input1->getValue();
   switch (type)
   {
   case AND:
+  {
     return eval_and();
-    break;
+  }
 
   case OR:
+  {
     return eval_or();
-    break;
+  }
 
   case NOT:
+  {
+    char in1 = input1->getValue();
     return not_func(in1);
-    break;
+  }
 
   case XOR:
+  {
     return eval_xor();
-    break;
+  }
 
   case NAND:
+  {
     char andOut = eval_and();
     return not_func(andOut);
-    break;
+  }
 
   case NOR:
+  {
     char orOut = eval_or();
     return not_func(orOut);
-    break;
+  }
 
   case XNOR:
+  {
     char xorOut = eval_xor();
     return not_func(xorOut);
-    break;
+  }
 
   default:
+  {
     return 'X';
+  }
   }
 }
 
-friend char eval_and()
+char Gate::eval_and() const
 {
+  char in1 = input1->getValue();
   char in2 = input2->getValue();
   if (in1 == 'X' && in2 == 'X')
   {
@@ -91,8 +102,9 @@ friend char eval_and()
   return '0';
 }
 
-friend char eval_or()
+char Gate::eval_or()const
 {
+  char in1 = input1->getValue();
   char in2 = input2->getValue();
   if (in1 == '1' || in2 == '1')
   {
@@ -105,8 +117,9 @@ friend char eval_or()
   return '0';
 }
 
-friend char eval_xor()
+char Gate::eval_xor()const
 {
+  char in1 = input1->getValue();
   char in2 = input2->getValue();
   if (in1 == in2)
   {

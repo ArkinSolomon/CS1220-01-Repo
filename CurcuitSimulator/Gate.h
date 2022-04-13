@@ -7,24 +7,34 @@
 #define GATE_H
 
 class Wire;
-enum GateType{AND, OR, NOT, XOR, NAND, NOR, XNOR};
+enum GateType
+{
+  AND,
+  OR,
+  NOT,
+  XOR,
+  NAND,
+  NOR,
+  XNOR
+};
 
-class Gate {
+class Gate
+{
 public:
-	Gate(GateType t, int d, Wire* in1, Wire* in2, Wire* out);
-	int getDelay() const;
-	Wire* getInput(int i) const;
-	Wire* getOutput() const;
-	char evaluate() const;
-  friend char eval_and();
-  friend char eval_or();
-  friend char eval_xor();
+  Gate(GateType t, int d, Wire *in1, Wire *in2, Wire *out);
+  int getDelay() const;
+  Wire *getInput(int i) const;
+  Wire *getOutput() const;
+  char evaluate() const;
+  char eval_and() const;
+  char eval_or() const;
+  char eval_xor() const;
 
 private:
-	GateType type;
-	int delay;
-	Wire* input1, * input2;
-	Wire* output;
+  GateType type;
+  int delay;
+  Wire *input1, *input2;
+  Wire *output;
 };
 
 char not_func(char in);
