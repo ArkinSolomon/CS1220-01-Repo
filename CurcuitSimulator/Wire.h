@@ -14,10 +14,11 @@ class Gate;
 
 class Wire{
 public:
-	Wire(int i, char n, char v);
+	Wire(int i, char n);
+	~Wire();
 	void setValue(char v);
 	void setHistory(string s);
-	void setDrives(vector<Gate*>& d);
+	void setDrives(Gate* g);
 	char getValue() const;
 	char getName() const;
 	vector<Gate*> getDrives() const;

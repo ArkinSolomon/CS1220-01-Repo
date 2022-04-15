@@ -7,10 +7,16 @@
 #include <iostream>
 using namespace std;
 
-Wire::Wire(int i, char n = '1', char v = 'X') {
+Wire::Wire(int i, char n = '1') {
 	index = i;
 	name = n;
-	value = v;
+	value = 'X';
+}
+
+Wire::~Wire() {
+	for (int i = 0; i < drives.size(); i++) {
+		delete drives.at(i);
+	}
 }
 
 void Wire::setValue(char v) {
@@ -21,8 +27,8 @@ void Wire::setHistory(string h) {
 	history = h;
 }
 
-void Wire::setDrives(vector<Gate*>& d) {
-	drives = d;
+void Wire::setDrives(Gate* g) {
+	drives.push_back(g);
 }
 
 char Wire::getName() const {

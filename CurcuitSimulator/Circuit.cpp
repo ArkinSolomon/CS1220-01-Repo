@@ -14,6 +14,15 @@ Circuit::Circuit(string circuitPath, string valuePath)
   parseValues(valuePath);
 }
 
+Circuit::~Circuit() {
+    for (Wire* w: wires) {
+        delete w;
+    }
+    for (Gate* g : gates) {
+        delete g;
+    }
+}
+
 void Circuit::parseCircuit(string path)
 {
   // Open the file and check if it exists
@@ -35,17 +44,19 @@ void Circuit::parseCircuit(string path)
     circuitFile >> type;
     if (type == "INPUT" || type == "OUTPUT")
     {
-      char name;
-      int index;
-
       // Parses wires
-      circuitFile >> name >> index;
-      Wire w(index, name);  
-      wires.insert(name, &w);
+        char name = '!';
+        int index = -1;
+        circuitFile >> name >> index;
+        Wire w(index, name);
+        wires.at(index) = &w;
     }
     else
     {
       //Parses gates
+        string name= "";
+        int delay = -1;
+
     }
   }
 

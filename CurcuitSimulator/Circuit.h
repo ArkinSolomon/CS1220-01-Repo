@@ -5,7 +5,7 @@
 #include "Wire.h"
 #include "Gate.h"
 #include <string.h>
-#include <map>
+#include <vector>
 
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
@@ -14,12 +14,13 @@ class Circuit
 {
   public:
     Circuit(string circuitPath, string valuePath);
+    ~Circuit();
     void parseCircuit(string path);
     void parseValues(string path);
   private:
     string circuitName;
-    map<char, Wire*> wires;
-    map<char, Gate*> gates;
+    vector< Wire*> wires;
+    vector< Gate*> gates;
 
 };
 #endif

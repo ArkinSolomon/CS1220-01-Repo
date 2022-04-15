@@ -7,6 +7,7 @@
 #define GATE_H
 
 class Wire;
+
 enum GateType
 {
   AND,
@@ -22,6 +23,7 @@ class Gate
 {
 public:
   Gate(GateType t, int d, Wire *in1, Wire *in2, Wire *out);
+  ~Gate();
   int getDelay() const;
   Wire *getInput(int i) const;
   Wire *getOutput() const;
