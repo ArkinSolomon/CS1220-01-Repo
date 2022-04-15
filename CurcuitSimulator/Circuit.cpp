@@ -7,6 +7,18 @@
 #include <iostream>
 using namespace std;
 
+Circuit::~Circuit()
+{
+  for (Wire *w : wires)
+  {
+    delete w;
+  }
+  for (Gate *g : gates)
+  {
+    delete g;
+  }
+}
+
 bool Circuit::parseCircuit(string path)
 {
   // Open the file and check if it exists

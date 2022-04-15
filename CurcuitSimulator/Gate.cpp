@@ -14,6 +14,12 @@ Gate::Gate(GateType t, int d, Wire *in1, Wire *in2, Wire *out)
   output = out;
 }
 
+Gate::~Gate() {
+    delete input1;
+    delete input2;
+    delete output;
+}
+
 int Gate::getDelay() const
 {
   return delay;

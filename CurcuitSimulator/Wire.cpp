@@ -13,6 +13,12 @@ Wire::Wire(int i, char n) {
 	value = 'X';
 }
 
+Wire::~Wire() {
+	for (int i = 0; i < drives.size(); i++) {
+		delete drives.at(i);
+	}
+}
+
 void Wire::setValue(char v) {
 	value = v;
 }
@@ -21,8 +27,8 @@ void Wire::setHistory(string h) {
 	history = h;
 }
 
-void Wire::setDrives(vector<Gate*>& d) {
-	drives = d;
+void Wire::setDrives(Gate* g) {
+	drives.push_back(g);
 }
 
 char Wire::getName() const {

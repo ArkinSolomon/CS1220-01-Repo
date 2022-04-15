@@ -11,11 +11,15 @@
 #include <vector>
 using namespace std;
 
+#ifndef CIRCUIT_H
+#define CIRCUIT_H
+
 class Circuit
 {
 public:
-  bool parseCircuit(string path);
-  bool parseValues(string path);
+  ~Circuit();
+  void parseCircuit(string path);
+  void parseValues(string path);
   Wire *getWire(int i);
   Wire *getWireByName(char n);
 

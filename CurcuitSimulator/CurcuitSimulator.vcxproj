@@ -139,11 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Circuit.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Wire.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Circuit.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="Gate.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Wire.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
