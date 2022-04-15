@@ -39,8 +39,8 @@ char Wire::getValue() const{
 	return value;
 }
 
-vector<Gate*>& Wire::getDrives() const{
-	return *drives;
+vector<Gate*> Wire::getDrives() const{
+	return drives;
 }
 
 string Wire::getHistory() const {

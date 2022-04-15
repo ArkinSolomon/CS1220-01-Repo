@@ -57,9 +57,9 @@ bool Circuit::parseCircuit(string path)
 
       // Make sure all the wires exist
       Wire *inWire = getWire(inIndex);
-      Wire *outWire = getWire(outWire);
+      Wire *outWire = getWire(outputIndex);
       Gate g(GateType::NOT, delay, inWire, nullptr, outWire);
-      inWire->setDrives(g);
+      inWire->setDrives(&g);
     }
     else
     {
@@ -73,7 +73,7 @@ bool Circuit::parseCircuit(string path)
       // Make sure all the wires exist
       Wire *in1Wire = getWire(in1Index);
       Wire *in2Wire = getWire(in2Index);
-      Wire *outWire = getWire(outWire);
+      Wire *outWire = getWire(outputIndex);
     }
   }
 
