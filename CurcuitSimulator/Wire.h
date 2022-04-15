@@ -14,7 +14,7 @@ class Gate;
 
 class Wire{
 public:
-	Wire(int i, char n, char v);
+	Wire(int i, char n);
 	void setValue(char v);
 	void setHistory(string s);
 	void setDrives(vector<Gate*>& d);
@@ -27,8 +27,8 @@ public:
 private:
 	char value;
 	char name;
-	vector<Gate*> drives;
 	int index;
+	vector<Gate*> drives;
 	string history;
 };
 #endif

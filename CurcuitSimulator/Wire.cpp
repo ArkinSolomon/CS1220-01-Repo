@@ -7,10 +7,10 @@
 #include <iostream>
 using namespace std;
 
-Wire::Wire(int i, char n = '1', char v = 'X') {
+Wire::Wire(int i, char n) {
 	index = i;
 	name = n;
-	value = v;
+	value = 'X';
 }
 
 void Wire::setValue(char v) {
@@ -33,8 +33,8 @@ char Wire::getValue() const{
 	return value;
 }
 
-vector<Gate*> Wire::getDrives() const{
-	return drives;
+vector<Gate*>& Wire::getDrives() const{
+	return *drives;
 }
 
 string Wire::getHistory() const {

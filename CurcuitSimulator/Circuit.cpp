@@ -7,22 +7,15 @@
 #include <iostream>
 using namespace std;
 
-Circuit::Circuit(string circuitPath, string valuePath)
-{
-
-  parseCircuit(circuitPath);
-  parseValues(valuePath);
-}
-
-void Circuit::parseCircuit(string path)
+bool Circuit::parseCircuit(string path)
 {
   // Open the file and check if it exists
   ifstream circuitFile;
   circuitFile.open(path);
   if (!circuitFile.is_open())
   {
-    cout << "Could not open circuit file" << endl;
-    return;
+    cerr << "Could not open circuit file" << endl;
+    return false;
   }
 
   // Ignore the word CIRCUIT
@@ -35,31 +28,80 @@ void Circuit::parseCircuit(string path)
     circuitFile >> type;
     if (type == "INPUT" || type == "OUTPUT")
     {
-      char name;
-      int index;
-
       // Parses wires
+      char name = '!';
+      int index = -1;
       circuitFile >> name >> index;
-      Wire w(index, name);  
-      wires.insert(name, &w);
+      Wire w(index, name);
+      wires.at(index) = &w;
+    }
+    else if (type == "NOT")
+    {
+      // Only NOT gates have 3 arguments
+      int delay = -1;
+      int inIndex = -1;
+      int outputIndex = -1;
+      cin >> delay >> inIndex >> outputIndex;
+
+      // Make sure all the wires exist
+      Wire *inWire = getWire(inIndex);
+      Wire *outWire = getWire(outWire);
+      Gate g(GateType::NOT, delay, inWire, nullptr, outWire);
+      inWire->setDrives(g);
     }
     else
     {
-      //Parses gates
+      // Only NOT gates have 3 arguments
+      int delay = -1;
+      int in1Index = -1;
+      int in2Index = -1;
+      int outputIndex = -1;
+      cin >> delay >> in1Index >> in2Index >> outputIndex;
+
+      // Make sure all the wires exist
+      Wire *in1Wire = getWire(in1Index);
+      Wire *in2Wire = getWire(in2Index);
+      Wire *outWire = getWire(outWire);
     }
   }
 
   circuitFile.close();
+  return true;
 }
 
-void Circuit::parseValues(string path)
+bool Circuit::parseValues(string path)
 {
   // Open the file and check if it exists
   ifstream valueFile;
   valueFile.open(path);
   if (!valueFile.is_open())
   {
-    cout << "Could not open values file" << endl;
-    return;
+    cerr << "Could not open values file" << endl;
+    return false;
   }
+  return true;
+}
+
+// Get a wire by index or create an internal wire it if it doesn't exist
+Wire *Circuit::getWire(int i)
+{
+  if (wires.at(i) == nullptr)
+  {
+    Wire w(i, '@');
+    wires.at(i) = &w;
+  }
+  return wires.at(i);
+}
+
+// Get a wire by it's name
+Wire *Circuit::getWireByName(char n)
+{
+  for (Wire *w : wires)
+  {
+    if (w->getName() == n)
+    {
+      return w;
+    }
+  }
+  return nullptr;
 }
