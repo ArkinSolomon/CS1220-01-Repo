@@ -63,7 +63,7 @@ bool Circuit::parseCircuit(string path)
     }
     else
     {
-      // Only NOT gates have 3 arguments
+      // Handles every other case
       int delay = -1;
       int in1Index = -1;
       int in2Index = -1;
@@ -74,6 +74,7 @@ bool Circuit::parseCircuit(string path)
       Wire *in1Wire = getWire(in1Index);
       Wire *in2Wire = getWire(in2Index);
       Wire *outWire = getWire(outputIndex);
+      Gate* g(type, delay, in1Wire, in2Wire, outWire);
     }
   }
 
