@@ -127,7 +127,9 @@ char Gate::eval_xor()const
 {
   char in1 = input1->getValue();
   char in2 = input2->getValue();
-  if (in1 == in2)
+  if ((in1 == 'X') && (in1 == in2)) {
+      return 'X';
+  }else if (in1 == in2)
   {
     return '0';
   }

@@ -63,7 +63,7 @@ bool Circuit::parseCircuit(string path)
     }
     else
     {
-      // Only NOT gates have 3 arguments
+      // Handles every other case
       int delay = -1;
       int in1Index = -1;
       int in2Index = -1;

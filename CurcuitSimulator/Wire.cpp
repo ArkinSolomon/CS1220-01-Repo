@@ -23,8 +23,8 @@ void Wire::setValue(char v) {
 	value = v;
 }
 
-void Wire::setHistory(string h) {
-	history = h;
+void Wire::setHistory(char c) {
+	history.push_back(c);
 }
 
 void Wire::setDrives(Gate* g) {

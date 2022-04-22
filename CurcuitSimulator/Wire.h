@@ -17,7 +17,7 @@ public:
 	Wire(int i, char n);
 	~Wire();
 	void setValue(char v);
-	void setHistory(string s);
+	void setHistory(char c);
 	void setDrives(Gate* g);
 	char getValue() const;
 	char getName() const;
