@@ -74,7 +74,36 @@ bool Circuit::parseCircuit(string path)
       Wire *in1Wire = getWire(in1Index);
       Wire *in2Wire = getWire(in2Index);
       Wire *outWire = getWire(outputIndex);
-      Gate* g(type, delay, in1Wire, in2Wire, outWire);
+      GateType t = GateType::AND;
+
+      switch (type)
+      {
+      case "AND":
+        t = GateType::AND;
+        break;
+      case "OR":
+        t = GateType::OR;
+        break;
+      case "XOR":
+        t = GateType::XOR;
+        break;
+      case "NAND":
+        t = GateType::NAND;
+        break;
+      case "NOR":
+        t = GateType::NOR;
+        break;
+      case "XNOR":
+        t = GateType::XNOR;
+        break;
+      default:
+        throw runtime_error("Invalid gate in circuit definition");
+        break;
+      }
+
+      Gate newGate = new Gate(t, delay, in1Wire, in2Wire, outWire);
+      in1Wire->setDrives(newGate);
+      in2Wire->setDrives(newGate);
     }
   }
 
