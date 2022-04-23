@@ -45,8 +45,12 @@ bool Circuit::parseCircuit(string path)
       char name = '!';
       int index = -1;
       circuitFile >> name >> index;
-      Wire w(index, name);
-      wires.at(index) = &w;
+      if (index > wires.size())
+      {
+        wires.resize(index);
+      }
+      Wire *w = new Wire(index, name);
+      wires.insert(wires.begin() + index, w);
     }
     else if (type == "NOT")
     {
@@ -54,13 +58,13 @@ bool Circuit::parseCircuit(string path)
       int delay = -1;
       int inIndex = -1;
       int outputIndex = -1;
-      cin >> delay >> inIndex >> outputIndex;
+      circuitFile >> delay >> inIndex >> outputIndex;
 
       // Make sure all the wires exist
       Wire *inWire = getWire(inIndex);
       Wire *outWire = getWire(outputIndex);
-      Gate g(GateType::NOT, delay, inWire, nullptr, outWire);
-      inWire->setDrives(&g);
+      Gate *g = new Gate(GateType::NOT, delay, inWire, nullptr, outWire);
+      inWire->setDrives(g);
     }
     else
     {
@@ -69,7 +73,7 @@ bool Circuit::parseCircuit(string path)
       int in1Index = -1;
       int in2Index = -1;
       int outputIndex = -1;
-      cin >> delay >> in1Index >> in2Index >> outputIndex;
+      circuitFile >> delay >> in1Index >> in2Index >> outputIndex;
 
       // Make sure all the wires exist
       Wire *in1Wire = getWire(in1Index);
@@ -130,22 +134,23 @@ bool Circuit::parseValues(string path)
   // Ignore the word VECTOR
   string ignore, valueFileName;
   valueFile >> ignore >> valueFileName;
-  if (valueFileName != circuitName){
+  if (valueFileName != circuitName)
+  {
     cerr << "Incorrect value file for circuit file" << endl;
     return false;
   }
-  
-  //Start counting from zero
+
+  // Start counting from zero
   int ooa = 0;
   while (!valueFile.eof())
   {
     // Skip the word INPUT
     char wireName;
     int time, value;
-    cin >> ignore >> wireName >> time >> value;
+    valueFile >> ignore >> wireName >> time >> value;
 
-    Wire* w = getWireByName(wireName);
-    Event* e = new Event(ooa, time, w, value);
+    Wire *w = getWireByName(wireName);
+    Event *e = new Event(ooa, time, w, value);
 
     queue.push(e);
 
@@ -158,10 +163,14 @@ bool Circuit::parseValues(string path)
 // Get a wire by index or create an internal wire it if it doesn't exist
 Wire *Circuit::getWire(int i)
 {
-  if (wires.at(i) == nullptr)
+  if (wires.size() < i || wires.at(i) == nullptr)
   {
-    Wire w(i, '@');
-    wires.at(i) = &w;
+    Wire *w = new Wire(i, '@');
+    if (i > wires.size())
+    {
+      wires.resize(i);
+    }
+    wires.insert(wires.begin() + i, w);
   }
   return wires.at(i);
 }
@@ -181,9 +190,9 @@ Wire *Circuit::getWireByName(char n)
 
 void Circuit::simulate()
 {
-  while (!queue.empty()){
-    Event* e = queue.top();
-   cout << e->getOOA() << " " << e->getTime() << " " << e->getWire()->getName() << endl;
+  while (!queue.empty())
+  {
+    Event *e = queue.top();
+    cout << e->getOOA() << " " << e->getTime() << " " << e->getWire()->getName() << endl;
   }
 }
-
