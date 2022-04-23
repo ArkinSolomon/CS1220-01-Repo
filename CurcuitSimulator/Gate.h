@@ -8,7 +8,7 @@
 
 class Wire;
 
-enum GateType
+enum class GateType
 {
   AND,
   OR,

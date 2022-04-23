@@ -14,10 +14,11 @@ Gate::Gate(GateType t, int d, Wire *in1, Wire *in2, Wire *out)
   output = out;
 }
 
-Gate::~Gate() {
-    delete input1;
-    delete input2;
-    delete output;
+Gate::~Gate()
+{
+  delete input1;
+  delete input2;
+  delete output;
 }
 
 int Gate::getDelay() const
@@ -43,40 +44,40 @@ char Gate::evaluate() const
 {
   switch (type)
   {
-  case AND:
+  case GateType::AND:
   {
     return eval_and();
   }
 
-  case OR:
+  case GateType::OR:
   {
     return eval_or();
   }
 
-  case NOT:
+  case GateType::NOT:
   {
     char in1 = input1->getValue();
     return not_func(in1);
   }
 
-  case XOR:
+  case GateType::XOR:
   {
     return eval_xor();
   }
 
-  case NAND:
+  case GateType::NAND:
   {
     char andOut = eval_and();
     return not_func(andOut);
   }
 
-  case NOR:
+  case GateType::NOR:
   {
     char orOut = eval_or();
     return not_func(orOut);
   }
 
-  case XNOR:
+  case GateType::XNOR:
   {
     char xorOut = eval_xor();
     return not_func(xorOut);
@@ -108,7 +109,7 @@ char Gate::eval_and() const
   return '0';
 }
 
-char Gate::eval_or()const
+char Gate::eval_or() const
 {
   char in1 = input1->getValue();
   char in2 = input2->getValue();
@@ -123,13 +124,15 @@ char Gate::eval_or()const
   return '0';
 }
 
-char Gate::eval_xor()const
+char Gate::eval_xor() const
 {
   char in1 = input1->getValue();
   char in2 = input2->getValue();
-  if ((in1 == 'X') && (in1 == in2)) {
-      return 'X';
-  }else if (in1 == in2)
+  if ((in1 == 'X') && (in1 == in2))
+  {
+    return 'X';
+  }
+  else if (in1 == in2)
   {
     return '0';
   }
