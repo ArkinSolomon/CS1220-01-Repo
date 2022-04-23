@@ -22,8 +22,8 @@ public:
   bool parseValues(string path);
   Wire *getWire(int i);
   Wire *getWireByName(char n);
+  void addWire(int index, Wire* wire);
   void simulate();
-
 
 private:
   string circuitName;

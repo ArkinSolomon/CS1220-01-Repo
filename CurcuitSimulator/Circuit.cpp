@@ -45,20 +45,21 @@ bool Circuit::parseCircuit(string path)
       char name = '!';
       int index = -1;
       circuitFile >> name >> index;
-      if (index > wires.size())
-      {
-        wires.resize(index);
-      }
       Wire *w = new Wire(index, name);
-      wires.insert(wires.begin() + index, w);
+      addWire(index, w);
     }
     else if (type == "NOT")
     {
       // Only NOT gates have 3 arguments
+      string delayStr;
       int delay = -1;
       int inIndex = -1;
       int outputIndex = -1;
-      circuitFile >> delay >> inIndex >> outputIndex;
+      circuitFile >> delayStr >> inIndex >> outputIndex;
+
+      // Parse the delay
+      delayStr.replace(delayStr.find("ns"), 2, "");
+      delay = stoi(delayStr);
 
       // Make sure all the wires exist
       Wire *inWire = getWire(inIndex);
@@ -76,7 +77,7 @@ bool Circuit::parseCircuit(string path)
       int outputIndex = -1;
       circuitFile >> delayStr >> in1Index >> in2Index >> outputIndex;
 
-      //Parse the delay
+      // Parse the delay
       delayStr.replace(delayStr.find("ns"), 2, "");
       delay = stoi(delayStr);
 
@@ -171,11 +172,7 @@ Wire *Circuit::getWire(int i)
   if (wires.size() < i || wires.at(i) == nullptr)
   {
     Wire *w = new Wire(i, '@');
-    if (i > wires.size())
-    {
-      wires.resize(i);
-    }
-    wires.insert(wires.begin() + i, w);
+    addWire(i, w);
   }
   return wires.at(i);
 }
@@ -205,4 +202,14 @@ void Circuit::simulate()
     cout << e->getOOA() << " " << e->getTime() << " " << e->getWire()->getName() << endl;
     queue.pop();
   }
+}
+
+// Resize the vector if needed
+void Circuit::addWire(int index, Wire *wire)
+{
+  if (index > wires.size())
+  {
+    wires.resize(index);
+  }
+  wires.insert(wires.begin() + index, wire);
 }
