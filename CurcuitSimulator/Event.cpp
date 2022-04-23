@@ -5,7 +5,6 @@
 #include "Event.h"
 #include <string>
 
-
 Event::Event(int ooa, int t, Wire* w, char v)
 {
 	orderOfArrival = ooa;
@@ -32,7 +31,7 @@ char Event::getValue() const {
 
 bool operator<(const Event& e1, const Event& e2) {
 
-	if (e1.getTime() == e2.getTime() ){
+	if (e1.getTime() == e2.getTime()) {
 		return e1.getOOA() > e2.getOOA();
 	}
 
