@@ -48,5 +48,5 @@ string Wire::getHistory() const {
 }
 
 void Wire::printHistory() const {
-	cout << name<< " " << history << endl;
+	cout << name << " " << history << endl;
 }
