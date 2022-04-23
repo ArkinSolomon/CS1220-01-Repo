@@ -7,11 +7,12 @@
 
 #include "Wire.h"
 #include "Gate.h"
+#include "Event.h"
 #include <string.h>
 #include <vector>
+#include <queue>
 
 using namespace std;
-
 
 class Circuit
 {
@@ -28,6 +29,7 @@ private:
   string circuitName;
   vector<Wire *> wires;
   vector<Gate *> gates;
+  priority_queue<Event*> queue;
 };
 
 #endif

@@ -35,6 +35,6 @@ bool operator<(const Event& e1, const Event& e2) {
 	if (e1.getTime() == e2.getTime() ){
 		return e1.getOOA() > e2.getOOA();
 	}
-
+  
 	return e1.getTime() > e2.getTime();
 }
