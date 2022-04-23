@@ -194,6 +194,16 @@ Wire *Circuit::getWireByName(char n)
   return nullptr;
 }
 
+// Resize the vector if needed
+void Circuit::addWire(int index, Wire *wire)
+{
+  if (index > wires.size())
+  {
+    wires.resize(index);
+  }
+  wires.insert(wires.begin() + index, wire);
+}
+
 void Circuit::simulate()
 {
   while (!queue.empty())
@@ -204,12 +214,3 @@ void Circuit::simulate()
   }
 }
 
-// Resize the vector if needed
-void Circuit::addWire(int index, Wire *wire)
-{
-  if (index > wires.size())
-  {
-    wires.resize(index);
-  }
-  wires.insert(wires.begin() + index, wire);
-}
