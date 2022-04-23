@@ -14,20 +14,14 @@ int main()
     cin >> valuePath;
 
     //parses files
-  Circuit* c = new Circuit();
-  if (!c->parseCircuit(circuitPath))
-  {
-      delete c;
-      return 1;
-  }
+    Circuit* c = new Circuit();
+    if ((!c->parseCircuit(circuitPath)) || (!c->parseValues(valuePath)))
+    {
+        delete c;
+        return 1;
+    }
 
-  else if (!c->parseValues(valuePath))
-  {
-    delete c;
-    return 1;
-  }
+    c->simulate();
 
-
-
-  return 0;
+    return 0;
 }
