@@ -3,6 +3,7 @@
 // Purpose: To define the funtions in the Gate class
 // 4/11/2022 -OW/AS -Defined all of the functions
 #include "Circuit.h"
+#include "Event.h"
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -125,6 +126,32 @@ bool Circuit::parseValues(string path)
     cerr << "Could not open values file" << endl;
     return false;
   }
+
+  // Ignore the word VECTOR
+  string ignore, valueFileName;
+  valueFile >> ignore >> valueFileName;
+  if (valueFileName != circuitName){
+    cerr << "Incorrect value file for circuit file" << endl;
+    return false;
+  }
+  
+  //Start counting from zero
+  int ooa = 0;
+  while (!valueFile.eof())
+  {
+    // Skip the word INPUT
+    char wireName;
+    int time, value;
+    cin >> ignore >> wireName >> time >> value;
+
+    Wire* w = getWireByName(wireName);
+    Event* e = new Event(ooa, time, w, value);
+
+    //TODO: Add to queue
+
+    ++ooa;
+  }
+
   return true;
 }
 
@@ -154,5 +181,4 @@ Wire *Circuit::getWireByName(char n)
 
 void Circuit::simulate()
 {
-  
 }
