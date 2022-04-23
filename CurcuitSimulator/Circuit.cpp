@@ -69,11 +69,16 @@ bool Circuit::parseCircuit(string path)
     else
     {
       // Handles every other case
+      string delayStr;
       int delay = -1;
       int in1Index = -1;
       int in2Index = -1;
       int outputIndex = -1;
-      circuitFile >> delay >> in1Index >> in2Index >> outputIndex;
+      circuitFile >> delayStr >> in1Index >> in2Index >> outputIndex;
+
+      //Parse the delay
+      delayStr.replace(delayStr.find("ns"), 2, "");
+      delay = stoi(delayStr);
 
       // Make sure all the wires exist
       Wire *in1Wire = getWire(in1Index);
@@ -185,7 +190,11 @@ Wire *Circuit::getWireByName(char n)
 {
   for (Wire *w : wires)
   {
-    if (w->getName() == n)
+    if (w == nullptr)
+    {
+      continue;
+    }
+    else if (w->getName() == n)
     {
       return w;
     }
@@ -198,6 +207,7 @@ void Circuit::simulate()
   while (!queue.empty())
   {
     Event *e = queue.top();
-    cout << e->getOOA() << " " << e->getTime() << " "  << endl;
+    cout << e->getOOA() << " " << e->getTime() << " " << e->getWire()->getName() << endl;
+    queue.pop();
   }
 }
