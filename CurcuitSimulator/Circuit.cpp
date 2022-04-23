@@ -163,15 +163,20 @@ bool Circuit::parseValues(string path)
 // Get a wire by index or create an internal wire it if it doesn't exist
 Wire *Circuit::getWire(int i)
 {
-  if (wires.size() < i || wires.at(i) == nullptr)
-  {
-    Wire *w = new Wire(i, '@');
-    if (i > wires.size())
-    {
-      wires.resize(i);
+    try {
+        if (wires.size() < i || wires.at(i) == nullptr)
+        {
+            Wire* w = new Wire(i, '@');
+            if (i > wires.size())
+            {
+                wires.resize(i);
+            }
+            wires.insert(wires.begin() + i, w);
+        }
     }
-    wires.insert(wires.begin() + i, w);
-  }
+    catch (exception& e) {
+        cout << e.what() << endl;
+    }
   return wires.at(i);
 }
 
@@ -193,6 +198,6 @@ void Circuit::simulate()
   while (!queue.empty())
   {
     Event *e = queue.top();
-    cout << e->getOOA() << " " << e->getTime() << " " << e->getWire()->getName() << endl;
+    cout << e->getOOA() << " " << e->getTime() << " "  << endl;
   }
 }

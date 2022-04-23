@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hello World", "Hello World\Hello World.vcxproj", "{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CurcuitSimulator", "CurcuitSimulator\CurcuitSimulator.vcxproj", "{A0157EA0-4A85-4DED-81E5-3693872D0BF1}"
 EndProject
 Global
@@ -15,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Debug|x64.ActiveCfg = Debug|x64
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Debug|x64.Build.0 = Debug|x64
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Debug|x86.ActiveCfg = Debug|Win32
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Debug|x86.Build.0 = Debug|Win32
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Release|x64.ActiveCfg = Release|x64
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Release|x64.Build.0 = Release|x64
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Release|x86.ActiveCfg = Release|Win32
-		{13B4C112-D448-4B7C-9A44-A71A3AEDA9A9}.Release|x86.Build.0 = Release|Win32
 		{A0157EA0-4A85-4DED-81E5-3693872D0BF1}.Debug|x64.ActiveCfg = Debug|x64
 		{A0157EA0-4A85-4DED-81E5-3693872D0BF1}.Debug|x64.Build.0 = Debug|x64
 		{A0157EA0-4A85-4DED-81E5-3693872D0BF1}.Debug|x86.ActiveCfg = Debug|Win32
