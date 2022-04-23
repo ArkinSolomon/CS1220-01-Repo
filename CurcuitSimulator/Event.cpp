@@ -5,3 +5,8 @@
 #include "Event.h"
 #include <string>
 
+
+Event::Event(int i, int t, Wire* w, char v)
+{
+  
+}

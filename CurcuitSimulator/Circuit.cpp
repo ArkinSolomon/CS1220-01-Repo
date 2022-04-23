@@ -151,3 +151,8 @@ Wire *Circuit::getWireByName(char n)
   }
   return nullptr;
 }
+
+void Circuit::simulate()
+{
+  
+}

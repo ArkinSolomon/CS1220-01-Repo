@@ -11,10 +11,11 @@
 class Event
 {
 public:
-	Event(int i, Wire* w);
+	Event(int i, int t, Wire* w, char v);
 private:
+	int index, time;
 	Wire* wire;
-	int index;
+  char value;
 };
 
 #endif
