@@ -9,7 +9,9 @@
 #include "Gate.h"
 #include <string.h>
 #include <vector>
+
 using namespace std;
+
 
 class Circuit
 {
@@ -20,6 +22,7 @@ public:
   Wire *getWire(int i);
   Wire *getWireByName(char n);
   void simulate();
+
 
 private:
   string circuitName;

@@ -18,11 +18,13 @@ int main()
   if (!c->parseCircuit(circuitPath))
   {
       delete c;
+      return 1;
   }
 
   else if (!c->parseValues(valuePath))
   {
     delete c;
+    return 1;
   }
 
 

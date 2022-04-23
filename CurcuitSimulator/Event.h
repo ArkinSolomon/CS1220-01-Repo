@@ -11,11 +11,19 @@
 class Event
 {
 public:
-	Event(int i, int t, Wire* w, char v);
+	Event(int ooa, int t, Wire* w, char v);
+	int getOOA() const;
+	int getTime()const;
+	Wire* getWire() const;
+	char getValue() const;
+	//for the priority_queue
+	friend bool operator<(const Event& e1, const Event& e2);
+
 private:
-	int index, time;
+	int orderOfArrival;
+	int time;
 	Wire* wire;
-  char value;
+	char value;
 };
 
 #endif
