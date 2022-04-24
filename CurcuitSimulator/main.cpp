@@ -5,11 +5,11 @@ using namespace std;
 int main()
 {
     //gets circuit file name
-    cout << "Enter a circuit file name: " ;
+    //cout << "Enter a circuit file name: " ;
     string circuitPath = "circuit0.txt";
     // cin >> circuitPath;
     //gets vector file name
-    cout << "Enter a vector file name: ";
+    //cout << "Enter a vector file name: ";
     string valuePath = "circuit0_v.txt";
     // cin >> valuePath;
 

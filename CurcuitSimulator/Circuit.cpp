@@ -155,7 +155,7 @@ bool Circuit::parseValues(string path)
     valueFile >> ignore >> wireName >> time >> value;
 
     Wire *w = getWireByName(wireName);
-    Event *e = new Event(ooa, time, w, value);
+    Event e = Event(ooa, time, w, value);
 
     queue.push(e);
 
@@ -206,8 +206,8 @@ void Circuit::simulate()
 {
   while (!queue.empty())
   {
-    Event *e = queue.top();
-    cout << e->getOOA() << " " << e->getTime() << " " << e->getWire()->getName() << endl;
+    Event e = queue.top();
+    cout << e.getOOA() << " " << e.getTime() << " " << e.getWire()->getName() << endl;
     queue.pop();
   }
 }

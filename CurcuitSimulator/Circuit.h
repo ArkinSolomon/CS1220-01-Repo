@@ -29,7 +29,7 @@ private:
   string circuitName;
   vector<Wire *> wires;
   vector<Gate *> gates;
-  priority_queue<Event*> queue;
+  priority_queue<Event> queue;
 };
 
 #endif
