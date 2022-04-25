@@ -292,7 +292,7 @@ void Circuit::simulate()
 #endif
 
         // create a new event that was caused by this change
-        queue.push(Event(ooa, (e.getTime() + g->getDelay() - 1), g->getOutput(), result));
+        queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
         ooa++;
       }
     }
