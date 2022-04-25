@@ -264,7 +264,7 @@ void Circuit::simulate()
   {
     // get the first event and the wire it is associated to
     Event e = queue.top();
-    if (e.getTime() > 16)
+    if (e.getTime() > 60)
     {
       break;
     }
