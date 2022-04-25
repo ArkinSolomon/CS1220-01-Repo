@@ -293,7 +293,18 @@ void Circuit::simulate()
       }
     }
     w->stretchHistory(e.getTime());
-    w->setHistory(w->getValue());
+    char val = w->getValue();
+    char c = 'X';
+    if (val == '1') {
+        c = '-';
+    }
+    else if (val == '0') {
+        c = '_';
+    }
+    else {
+        c = 'X';
+    }
+    w->setHistory(c);
   }
 
 #ifdef CIRCUIT_DEBUG
