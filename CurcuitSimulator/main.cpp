@@ -6,11 +6,11 @@ int main()
 {
     //gets circuit file name
     //cout << "Enter a circuit file name: " ;
-    string circuitPath = "circuit1.txt";
+    string circuitPath = "circuit4.txt";
     // cin >> circuitPath;
     //gets vector file name
     //cout << "Enter a vector file name: ";
-    string valuePath = "circuit1_v.txt";
+    string valuePath = "circuit4_v.txt";
     // cin >> valuePath;
 
     //parses files

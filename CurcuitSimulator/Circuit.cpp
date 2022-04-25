@@ -4,7 +4,7 @@
 // 4/11/2022 -OW/AS -Defined all of the functions
 
 // #define FILE_DEBUG
-// #define CIRCUIT_DEBUG
+#define CIRCUIT_DEBUG
 
 #include "Circuit.h"
 #include "Event.h"
@@ -264,6 +264,10 @@ void Circuit::simulate()
   {
     // get the first event and the wire it is associated to
     Event e = queue.top();
+    if (e.getTime() > 16)
+    {
+      break;
+    }
 
 #ifdef CIRCUIT_DEBUG
     cout << "Handling event: " << e.getWire()->getName() << " --> " << e.getValue() << " [" << e.getTime() << "]" << endl;
