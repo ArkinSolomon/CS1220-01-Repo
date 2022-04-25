@@ -4,7 +4,7 @@
 // 4/11/2022 -OW/AS -Defined all of the functions
 
 // #define FILE_DEBUG
-#define CIRCUIT_DEBUG
+//#define CIRCUIT_DEBUG
 
 #include "Circuit.h"
 #include "Event.h"
