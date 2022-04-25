@@ -65,7 +65,9 @@ bool Circuit::parseCircuit(string path)
       Wire *inWire = getWire(inIndex);
       Wire *outWire = getWire(outputIndex);
       Gate *g = new Gate(GateType::NOT, delay, inWire, nullptr, outWire);
+      //Makes sure the wire knows which gate it is plugged into
       inWire->setDrives(g);
+      gates.push_back(g);
     }
     else
     {
@@ -174,7 +176,11 @@ Wire *Circuit::getWire(int i)
   if (wires.size() < i || wires.at(i) == nullptr)
   {
     Wire *w = new Wire(i, '@');
-    addWire(i, w);
+    if (i > wires.size())
+    {
+        wires.resize(i + 1);
+    }
+    wires.at(i) = w;
   }
   return wires.at(i);
 }
@@ -208,9 +214,16 @@ void Circuit::addWire(int index, Wire *wire)
 
 void Circuit::simulate()
 {
-  for(Gate* g: gates)
-  {
-      cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Input 2: " << g->getInput(2)->getName() << " Output: " << g->getOutput()->getName() << endl;
+    for (Wire* w : wires) {
+        if (w != NULL) {
+            cout << w->getName() << " value: " << w->getValue() << endl;
+        }
   }
+    cout << "Gates info" << endl;
+    for (Gate* g : gates)
+  {
+      cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Output: " << g->getOutput()->getName() << endl;
+  }
+
 }
 
