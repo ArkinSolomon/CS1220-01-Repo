@@ -30,6 +30,7 @@ private:
   vector<Wire *> wires;
   vector<Gate *> gates;
   priority_queue<Event> queue;
+  int ooa;
 };
 
 #endif

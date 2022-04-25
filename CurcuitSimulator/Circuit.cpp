@@ -151,7 +151,6 @@ bool Circuit::parseValues(string path)
   }
 
   // Start counting from zero
-  int ooa = 0;
   while (!valueFile.eof())
   {
     // Skip the word INPUT
@@ -214,16 +213,66 @@ void Circuit::addWire(int index, Wire *wire)
 
 void Circuit::simulate()
 {
+    //kept for testing circuit parser
+    /*cout << "Wire info" << endl;
     for (Wire* w : wires) {
         if (w != NULL) {
-            cout << w->getName() << " value: " << w->getValue() << endl;
+            cout << w->getName() << " Drives: ";
+            for (Gate* g : w->getDrives()) {
+                cout << g->getDelay() << " ";
+            }
         }
-  }
-    cout << "Gates info" << endl;
+  }*/
+    /*cout << "Gates info" << endl;
     for (Gate* g : gates)
   {
       cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Output: " << g->getOutput()->getName() << endl;
-  }
+  }*/
+    //kept for testing vector parser
+    /*while (!queue.empty())
+    {
+        Event e = queue.top();
+        cout << e.getOOA() << " " << e.getTime() << " " << e.getWire()->getName() << endl;
+        queue.pop();
+    }*/
 
+    while (!queue.empty()) {
+        //get the first event and the wire it is associated to
+        Event e = queue.top();
+        queue.pop();
+        Wire* w = e.getWire();
+        w->setValue(e.getValue());
+        //check if this event affects values in the future
+        vector<Gate*> wd = w->getDrives();
+        //checks to make sure this wire has drives
+        if (!wd.empty()) {
+            Gate* g = wd.at(0);
+            char result = g->evaluate();
+            if (w->getValue() != result) {
+                //create a new event that was caused by this change
+                queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
+                ooa++;
+            }
+            string wHistory = w->getHistory();
+            int currentTime = e.getTime();
+            int hSize = wHistory.length();
+            if (hSize < currentTime) {
+                for (int j = wHistory.length(); j >= currentTime; j++) {
+                    w->setHistory(w->getValue());
+                }
+            }
+        }
+    }
+        for (Wire* w : wires) {
+            if (w != NULL) {
+                if (w->getName() != '@') {
+                    cout << w->getName() << ": ";
+                    for (char c : w->getHistory()) {
+                        cout << c;
+                    }
+                    cout << endl;
+                }
+            }
+        }
 }
 
