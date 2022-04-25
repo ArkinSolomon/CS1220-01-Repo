@@ -155,7 +155,8 @@ bool Circuit::parseValues(string path)
   {
     // Skip the word INPUT
     char wireName;
-    int time, value;
+    int time;
+    char value;
     valueFile >> ignore >> wireName >> time >> value;
 
     Wire *w = getWireByName(wireName);
@@ -232,7 +233,7 @@ void Circuit::simulate()
     /*while (!queue.empty())
     {
         Event e = queue.top();
-        cout << e.getOOA() << " " << e.getTime() << " " << e.getWire()->getName() << endl;
+        cout << e.getOOA() << " " << e.getTime() << " " << e.getWire()->getValue() << endl;
         queue.pop();
     }*/
 
@@ -249,30 +250,38 @@ void Circuit::simulate()
         //checks to make sure this wire has drives
         if (!wd.empty()) {
           for (Gate* g : wd){
+
             char result = g->evaluate();
             if (w->getValue() != result) {
                 //create a new event that was caused by this change
                 queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
                 ooa++;
             }
-            string wHistory = w->getHistory();
-            int currentTime = e.getTime();
-            int hSize = wHistory.length();
-            if (hSize < currentTime) {
-                for (int j = wHistory.length(); j <= currentTime; j++) {
-                    char c = w->getValue();
-                    w->setHistory(c);
-                }
-            }
+
           }
+        }
+        string wHistory = w->getHistory();
+        int currentTime = e.getTime();
+        int hSize = wHistory.length();
+        if (hSize < currentTime) {
+            char wc = w->getValue();
+            char c = 'X';
+            if (wc == '1') {
+                c = '-';
+            }
+            else if (wc == '0') {
+                c = '_';
+            }
+            for (int j = wHistory.length(); j <= currentTime; j++) {
+                w->setHistory(c);
+            }
         }
     }
         for (Wire* w : wires) {
             if (w != NULL) {
                 if (w->getName() != '@') {
                     cout << w->getName() << ": ";
-                    string h = w->getHistory();
-                    cout << h << endl;
+                    w->printHistory();
                 }
             }
         }
