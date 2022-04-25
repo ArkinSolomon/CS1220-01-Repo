@@ -24,6 +24,7 @@
     <ProjectGuid>{a0157ea0-4a85-4ded-81e5-3693872d0bf1}</ProjectGuid>
     <RootNamespace>CurcuitSimulator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CircuitSimulator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
