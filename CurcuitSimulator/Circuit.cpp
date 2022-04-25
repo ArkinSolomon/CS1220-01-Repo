@@ -117,6 +117,8 @@ bool Circuit::parseCircuit(string path)
       }
 
       Gate *newGate = new Gate(t, delay, in1Wire, in2Wire, outWire);
+      gates.push_back(newGate);
+      //making sure the wires know which gates they are hooked up to
       in1Wire->setDrives(newGate);
       in2Wire->setDrives(newGate);
     }
@@ -206,11 +208,9 @@ void Circuit::addWire(int index, Wire *wire)
 
 void Circuit::simulate()
 {
-  while (!queue.empty())
+  for(Gate* g: gates)
   {
-    Event e = queue.top();
-    cout << e.getOOA() << " " << e.getTime() << " " << e.getWire()->getName() << endl;
-    queue.pop();
+      cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Input 2: " << g->getInput(2)->getName() << " Output: " << g->getOutput()->getName() << endl;
   }
 }
 
