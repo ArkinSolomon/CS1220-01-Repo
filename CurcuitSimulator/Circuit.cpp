@@ -260,7 +260,8 @@ void Circuit::simulate()
             int hSize = wHistory.length();
             if (hSize < currentTime) {
                 for (int j = wHistory.length(); j <= currentTime; j++) {
-                    w->setHistory(w->getValue());
+                    char c = w->getValue();
+                    w->setHistory(c);
                 }
             }
           }
@@ -270,10 +271,8 @@ void Circuit::simulate()
             if (w != NULL) {
                 if (w->getName() != '@') {
                     cout << w->getName() << ": ";
-                    for (char c : w->getHistory()) {
-                        cout << c;
-                    }
-                    cout << endl;
+                    string h = w->getHistory();
+                    cout << h << endl;
                 }
             }
         }
