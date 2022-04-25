@@ -6,12 +6,12 @@ int main()
 {
     //gets circuit file name
     //cout << "Enter a circuit file name: " ;
-    string circuitPath = "circuit2.txt";
-   // cin >> circuitPath;
+    string circuitPath = "circuit4.txt";
+    // cin >> circuitPath;
     //gets vector file name
-   // cout << "Enter a vector file name: ";
-    string valuePath = "circuit2_v.txt";
-   // cin >> valuePath;
+    //cout << "Enter a vector file name: ";
+    string valuePath = "circuit4_v.txt";
+    // cin >> valuePath;
 
     //parses files
     Circuit* c = new Circuit();
