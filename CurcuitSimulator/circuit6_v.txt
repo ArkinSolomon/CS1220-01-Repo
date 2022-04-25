@@ -1,2 +1,3 @@
 VECTOR test1
 INPUT A 10 1
+INPUT B 5 0

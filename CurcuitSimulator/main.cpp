@@ -4,16 +4,14 @@ using namespace std;
 
 int main()
 {
-  for (int i = 0; i <= 6; ++i)
-  {
-    if (i == 3) continue;
+  
     // gets circuit file name
     // cout << "Enter a circuit file name: ";
-    string circuitPath = "circuit" + to_string(i) + ".txt";
+    string circuitPath = "circuit5.txt";
     // cin >> circuitPath;
     // gets vector file name
     // cout << "Enter a vector file name: ";
-    string valuePath = "circuit" + to_string(i) + "_v.txt";
+    string valuePath = "circuit5_v.txt";
     // cin >> valuePath;
 
     // parses files
@@ -26,7 +24,6 @@ int main()
 
     c->simulate();
     cout << endl;
-  }
 
   return 0;
 }
