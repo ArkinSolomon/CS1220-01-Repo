@@ -4,9 +4,10 @@ using namespace std;
 
 int main()
 {
-  for (int i = 0; i <= 6; ++i)
-  {
-    if (i == 3) continue;
+  // for (int i = 0; i <= 6; ++i)
+  // {
+  //   if (i == 3) continue;
+  int i = 5;
     // gets circuit file name
     // cout << "Enter a circuit file name: ";
     string circuitPath = "circuit" + to_string(i) + ".txt";
@@ -26,7 +27,7 @@ int main()
 
     c->simulate();
     cout << endl;
-  }
+  // }
 
   return 0;
 }

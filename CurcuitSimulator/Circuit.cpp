@@ -3,8 +3,8 @@
 // Purpose: To define the funtions in the Gate class
 // 4/11/2022 -OW/AS -Defined all of the functions
 
-// #define FILE_DEBUG
-//#define CIRCUIT_DEBUG
+#define FILE_DEBUG
+#define CIRCUIT_DEBUG
 
 #include "Circuit.h"
 #include "Event.h"
@@ -265,7 +265,7 @@ void Circuit::simulate()
   {
     // get the first event and the wire it is associated to
     Event e = queue.top();
-    if (e.getTime() > 60)
+    if (e.getTime() > 61)
     {
       break;
     }
@@ -296,8 +296,12 @@ void Circuit::simulate()
         queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
         ooa++;
 
-        vector<Gate*> outputDrives = g->getOutput()->getDrives();
-        if (find(outputDrives.begin(), outputDrives.end(), g) != outputDrives.end()){
+        vector<Gate *> outputDrives = g->getOutput()->getDrives();
+        if (find(outputDrives.begin(), outputDrives.end(), g) != outputDrives.end())
+        {
+#ifdef CIRCUIT_DEBUG
+          cout << "Gate self-feed detected -- Wire: " << g->getOutput()->getName() << endl;
+#endif
           queue.push(Event(ooa, (e.getTime() + 1), g->getOutput(), 'X'));
           ooa++;
         }
@@ -306,14 +310,17 @@ void Circuit::simulate()
     w->stretchHistory(e.getTime());
     char val = w->getValue();
     char c = 'X';
-    if (val == '1') {
-        c = '-';
+    if (val == '1')
+    {
+      c = '-';
     }
-    else if (val == '0') {
-        c = '_';
+    else if (val == '0')
+    {
+      c = '_';
     }
-    else {
-        c = 'X';
+    else
+    {
+      c = 'X';
     }
     w->setHistory(c);
   }
@@ -330,6 +337,10 @@ void Circuit::simulate()
         cout << w->getName() << ": ";
         w->stretchHistory(maxTime);
         string h = w->getHistory();
+        if (h.length() > 61)
+        {
+          h = h.substr(0, 61);
+        }
         cout << h << endl;
       }
     }
