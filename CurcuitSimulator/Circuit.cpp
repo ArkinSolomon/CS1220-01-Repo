@@ -242,11 +242,13 @@ void Circuit::simulate()
         queue.pop();
         Wire* w = e.getWire();
         w->setValue(e.getValue());
+        
         //check if this event affects values in the future
         vector<Gate*> wd = w->getDrives();
+
         //checks to make sure this wire has drives
         if (!wd.empty()) {
-            Gate* g = wd.at(0);
+          for (Gate* g : wd){
             char result = g->evaluate();
             if (w->getValue() != result) {
                 //create a new event that was caused by this change
@@ -257,10 +259,11 @@ void Circuit::simulate()
             int currentTime = e.getTime();
             int hSize = wHistory.length();
             if (hSize < currentTime) {
-                for (int j = wHistory.length(); j >= currentTime; j++) {
+                for (int j = wHistory.length(); j <= currentTime; j++) {
                     w->setHistory(w->getValue());
                 }
             }
+          }
         }
     }
         for (Wire* w : wires) {
