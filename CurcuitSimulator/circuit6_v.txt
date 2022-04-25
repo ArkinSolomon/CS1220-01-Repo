@@ -1,0 +1,2 @@
+VECTOR test1
+INPUT A 10 1
