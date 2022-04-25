@@ -2,6 +2,10 @@
 // Date:    4/11/20
 // Purpose: To define the funtions in the Gate class
 // 4/11/2022 -OW/AS -Defined all of the functions
+
+// #define FILE_DEBUG
+// #define CIRCUIT_DEBUG
+
 #include "Circuit.h"
 #include "Event.h"
 #include <fstream>
@@ -65,7 +69,8 @@ bool Circuit::parseCircuit(string path)
       Wire *inWire = getWire(inIndex);
       Wire *outWire = getWire(outputIndex);
       Gate *g = new Gate(GateType::NOT, delay, inWire, nullptr, outWire);
-      //Makes sure the wire knows which gate it is plugged into
+
+      // Makes sure the wire knows which gate it is plugged into
       inWire->setDrives(g);
       gates.push_back(g);
     }
@@ -120,7 +125,8 @@ bool Circuit::parseCircuit(string path)
 
       Gate *newGate = new Gate(t, delay, in1Wire, in2Wire, outWire);
       gates.push_back(newGate);
-      //making sure the wires know which gates they are hooked up to
+
+      // making sure the wires know which gates they are hooked up to
       in1Wire->setDrives(newGate);
       in2Wire->setDrives(newGate);
     }
@@ -151,19 +157,22 @@ bool Circuit::parseValues(string path)
   }
 
   // Start counting from zero
-  while (!valueFile.eof())
+  while (true)
   {
     // Skip the word INPUT
-    char wireName;
+    char wireName, value;
     int time;
-    char value;
     valueFile >> ignore >> wireName >> time >> value;
+
+    if (valueFile.eof())
+    {
+      break;
+    }
 
     Wire *w = getWireByName(wireName);
     Event e = Event(ooa, time, w, value);
 
     queue.push(e);
-
     ++ooa;
   }
 
@@ -178,7 +187,7 @@ Wire *Circuit::getWire(int i)
     Wire *w = new Wire(i, '@');
     if (i > wires.size())
     {
-        wires.resize(i + 1);
+      wires.resize(i + 1);
     }
     wires.at(i) = w;
   }
@@ -214,76 +223,93 @@ void Circuit::addWire(int index, Wire *wire)
 
 void Circuit::simulate()
 {
-    //kept for testing circuit parser
-    /*cout << "Wire info" << endl;
-    for (Wire* w : wires) {
-        if (w != NULL) {
-            cout << w->getName() << " Drives: ";
-            for (Gate* g : w->getDrives()) {
-                cout << g->getDelay() << " ";
-            }
-        }
-  }*/
-    /*cout << "Gates info" << endl;
-    for (Gate* g : gates)
+#ifdef FILE_DEBUG
+  // Kept for testing circuit and vector file parsing
+  cout << "Wire info" << endl;
+  for (Wire *w : wires)
   {
-      cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Output: " << g->getOutput()->getName() << endl;
-  }*/
-    //kept for testing vector parser
-    /*while (!queue.empty())
+    if (w != NULL)
     {
-        Event e = queue.top();
-        cout << e.getOOA() << " " << e.getTime() << " " << e.getWire()->getValue() << endl;
-        queue.pop();
-    }*/
-
-    while (!queue.empty()) {
-        //get the first event and the wire it is associated to
-        Event e = queue.top();
-        queue.pop();
-        Wire* w = e.getWire();
-        w->setValue(e.getValue());
-        
-        //check if this event affects values in the future
-        vector<Gate*> wd = w->getDrives();
-
-        //checks to make sure this wire has drives
-        if (!wd.empty()) {
-          for (Gate* g : wd){
-
-            char result = g->evaluate();
-            if (w->getValue() != result) {
-                //create a new event that was caused by this change
-                queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
-                ooa++;
-            }
-
-          }
-        }
-        string wHistory = w->getHistory();
-        int currentTime = e.getTime();
-        int hSize = wHistory.length();
-        if (hSize < currentTime) {
-            char wc = w->getValue();
-            char c = 'X';
-            if (wc == '1') {
-                c = '-';
-            }
-            else if (wc == '0') {
-                c = '_';
-            }
-            for (int j = wHistory.length(); j <= currentTime; j++) {
-                w->setHistory(c);
-            }
-        }
+      cout << w->getName() << " Drives: ";
+      for (Gate *g : w->getDrives())
+      {
+        cout << g->getDelay() << " " << endl;
+      }
     }
-        for (Wire* w : wires) {
-            if (w != NULL) {
-                if (w->getName() != '@') {
-                    cout << w->getName() << ": ";
-                    w->printHistory();
-                }
-            }
-        }
-}
+  }
+  cout << "Gates info" << endl;
+  for (Gate *g : gates)
+  {
+    cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Output: " << g->getOutput()->getName() << endl;
+  }
 
+  vector<Event> events;
+  while (!queue.empty())
+  {
+    Event e = queue.top();
+    cout << "OOA: " << e.getOOA() << " TIME: " << e.getTime() << " WIRE: " << e.getWire()->getName() << " Value: " << e.getValue() << endl;
+    queue.pop();
+    events.push_back(e);
+  }
+  for (Event e : events)
+  {
+    queue.push(e);
+  }
+#endif
+
+  // The last event's time of occurence
+  int maxTime = 0;
+
+  while (!queue.empty())
+  {
+    // get the first event and the wire it is associated to
+    Event e = queue.top();
+
+#ifdef CIRCUIT_DEBUG
+    cout << "Handling event: " << e.getWire()->getName() << " --> " << e.getValue() << " [" << e.getTime() << "]" << endl;
+#endif
+    queue.pop();
+    Wire *w = e.getWire();
+    w->setValue(e.getValue());
+    if (maxTime < e.getTime())
+    {
+      maxTime = e.getTime() + 1;
+    }
+
+    // Loop through all drives
+    vector<Gate *> wd = w->getDrives();
+    for (Gate *g : wd)
+    {
+      char result = g->evaluate();
+      if (g->getOutput()->getValue() != result)
+      {
+#ifdef CIRCUIT_DEBUG
+        cout << "Difference in gate result -- Time: " << e.getTime() << " Result: " << result << " New event time: " << (e.getTime() + g->getDelay()) << endl;
+#endif
+
+        // create a new event that was caused by this change
+        queue.push(Event(ooa, (e.getTime() + g->getDelay() - 1), g->getOutput(), result));
+        ooa++;
+      }
+    }
+    w->stretchHistory(e.getTime());
+    w->setHistory(w->getValue());
+  }
+
+#ifdef CIRCUIT_DEBUG
+  cout << "DONE SIMULATING... PRINTING HISTORY:" << endl;
+#endif
+  for (Wire *w : wires)
+  {
+    if (w != NULL)
+    {
+      if (w->getName() != '@')
+      {
+        cout << w->getName() << ": ";
+        w->stretchHistory(maxTime);
+        string h = w->getHistory();
+        cout << h << endl;
+      }
+    }
+  }
+}
