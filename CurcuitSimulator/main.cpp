@@ -4,24 +4,29 @@ using namespace std;
 
 int main()
 {
-    //gets circuit file name
-    //cout << "Enter a circuit file name: " ;
-    string circuitPath = "circuit5.txt";
+  for (int i = 0; i <= 6; ++i)
+  {
+    if (i == 3) continue;
+    // gets circuit file name
+    // cout << "Enter a circuit file name: ";
+    string circuitPath = "circuit" + to_string(i) + ".txt";
     // cin >> circuitPath;
-    //gets vector file name
-    //cout << "Enter a vector file name: ";
-    string valuePath = "circuit5_v.txt";
+    // gets vector file name
+    // cout << "Enter a vector file name: ";
+    string valuePath = "circuit" + to_string(i) + "_v.txt";
     // cin >> valuePath;
 
-    //parses files
-    Circuit* c = new Circuit();
+    // parses files
+    Circuit *c = new Circuit();
     if ((!c->parseCircuit(circuitPath)) || (!c->parseValues(valuePath)))
     {
-        delete c;
-        return 1;
+      delete c;
+      return 1;
     }
 
     c->simulate();
+    cout << endl;
+  }
 
-    return 0;
+  return 0;
 }

@@ -10,6 +10,7 @@
 #include "Event.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 Circuit::~Circuit()
@@ -264,7 +265,7 @@ void Circuit::simulate()
   {
     // get the first event and the wire it is associated to
     Event e = queue.top();
-    if (e.getTime() > 16)
+    if (e.getTime() > 60)
     {
       break;
     }
@@ -292,8 +293,14 @@ void Circuit::simulate()
 #endif
 
         // create a new event that was caused by this change
-        queue.push(Event(ooa, (e.getTime() + g->getDelay() - 1), g->getOutput(), result));
+        queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
         ooa++;
+
+        vector<Gate*> outputDrives = g->getOutput()->getDrives();
+        if (find(outputDrives.begin(), outputDrives.end(), g) != outputDrives.end()){
+          queue.push(Event(ooa, (e.getTime() + 1), g->getOutput(), 'X'));
+          ooa++;
+        }
       }
     }
     w->stretchHistory(e.getTime());
