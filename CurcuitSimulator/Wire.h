@@ -23,6 +23,7 @@ public:
 	char getName() const;
 	vector<Gate*> getDrives() const;
 	string getHistory() const;
+  void stretchHistory(int time);
 	void printHistory() const;
 
 private:
