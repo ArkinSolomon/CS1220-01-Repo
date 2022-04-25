@@ -10,6 +10,7 @@
 #include "Event.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 Circuit::~Circuit()
@@ -294,6 +295,12 @@ void Circuit::simulate()
         // create a new event that was caused by this change
         queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
         ooa++;
+
+        vector<Gate*> outputDrives = g->getOutput()->getDrives();
+        if (find(outputDrives.begin(), outputDrives.end(), g) != outputDrives.end()){
+          queue.push(Event(ooa, (e.getTime() + 1), g->getOutput(), 'X'));
+          ooa++;
+        }
       }
     }
     w->stretchHistory(e.getTime());
