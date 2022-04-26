@@ -1,4 +1,3 @@
-
 CIRCUIT MultiGate
 INPUT   A    1
 INPUT   B    3
