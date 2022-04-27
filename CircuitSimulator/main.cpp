@@ -16,11 +16,11 @@ int main()
 #endif
     // gets circuit file name
     // cout << "Enter a circuit file name: ";
-    string circuitPath = "circuits/circuit5.txt";
+    string circuitPath = "circuit4.txt";
     // cin >> circuitPath;
     // gets vector file name
     // cout << "Enter a vector file name: ";
-    string valuePath = "circuits/circuit5_v.txt";
+    string valuePath = "circuit4_v.txt";
     // cin >> valuePath;
 
     // parses files

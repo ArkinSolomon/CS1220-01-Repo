@@ -269,4 +269,25 @@ void Circuit::simulate()
       w->printHistory();
     }
   }
+  //add time line at bottom
+  cout << "   0";
+  int i = 0;
+  int j = 1;
+  size_t lengthStr = wires.at(1)->getHistory().length();
+  while(i < lengthStr) {
+      if (j == 5) {
+          cout << j;
+          j ++;
+      }
+      else if (j == 10)
+      {
+          cout << "0";
+          j=0;
+      }
+      else {
+          cout << "-";
+          j++;
+          i++;
+      }
+  }
 }
