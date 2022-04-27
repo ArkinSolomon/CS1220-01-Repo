@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-#define LOOP_ALL
+//#define LOOP_ALL
 
 int main()
 {

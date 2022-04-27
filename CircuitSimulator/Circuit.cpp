@@ -72,7 +72,7 @@ bool Circuit::parseCircuit(string path)
       Gate *g = new Gate(GateType::NOT, delay, inWire, nullptr, outWire);
 
       // Makes sure the wire knows which gate it is plugged into
-      inWire->addDriven(g);
+      inWire->setDrives(g);
       gates.push_back(g);
     }
     else
@@ -128,8 +128,8 @@ bool Circuit::parseCircuit(string path)
       gates.push_back(newGate);
 
       // making sure the wires know which gates they are hooked up to
-      in1Wire->addDriven(newGate);
-      in2Wire->addDriven(newGate);
+      in1Wire->setDrives(newGate);
+      in2Wire->setDrives(newGate);
     }
   }
 
@@ -236,7 +236,7 @@ void Circuit::simulate()
     w->setValue(v);
 
     w->stretchHistory(e.getTime());
-    w->addHistory(v);
+    w->setHistory(v);
 
     //Check if we've gone on long enough
     if (e.getTime() > 61)
@@ -252,11 +252,11 @@ void Circuit::simulate()
     //Loop through all drives
     for (Gate *g : w->getDrives())
     {
-      char newV = g->evaluate();
+      char result = g->evaluate();
       w->setValue(original);
-      if (g->evaluate() != newV)
+      if (g->evaluate() != result)
       {
-        queue.push(Event(ooa, e.getTime() + g->getDelay(), g->getOutput(), newV));
+        queue.push(Event(ooa, e.getTime() + g->getDelay(), g->getOutput(), result));
         ++ooa;
       }
       w->setValue(v);
@@ -271,5 +271,26 @@ void Circuit::simulate()
       w->stretchHistory(maxTime + 1);
       w->printHistory();
     }
+  }
+  //add time line at bottom
+  cout << "   0";
+  int i = 0;
+  int j = 1;
+  size_t lengthStr = wires.at(1)->getHistory().length();
+  while(i < lengthStr) {
+      if (j == 5) {
+          cout << j;
+          j ++;
+      }
+      else if (j == 10)
+      {
+          cout << "0";
+          j=0;
+      }
+      else {
+          cout << "-";
+          j++;
+          i++;
+      }
   }
 }

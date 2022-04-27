@@ -17,8 +17,8 @@ public:
 	Wire(int i, char n);
 	~Wire();
 	void setValue(char v);
-	void addHistory(char c);
-	void addDriven(Gate* g);
+	void setHistory(char c);
+	void setDrives(Gate* g);
 	char getValue() const;
 	char getName() const;
 	vector<Gate*> getDrives() const;
