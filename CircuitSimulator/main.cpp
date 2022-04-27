@@ -2,16 +2,25 @@
 #include <iostream>
 using namespace std;
 
+#define LOOP_ALL
+
 int main()
 {
-  
+#ifdef LOOP_ALL
+  for (int i = 0; i <= 6; ++i)
+  {
+    if (i == 3)
+      continue;
+#else
+  int i = 0;
+#endif
     // gets circuit file name
     // cout << "Enter a circuit file name: ";
-    string circuitPath = "circuit5.txt";
+    string circuitPath = "circuits/circuit" + to_string(i) + ".txt";
     // cin >> circuitPath;
     // gets vector file name
     // cout << "Enter a vector file name: ";
-    string valuePath = "circuit5_v.txt";
+    string valuePath = "circuits/circuit" + to_string(i) + "_v.txt";
     // cin >> valuePath;
 
     // parses files
@@ -23,7 +32,10 @@ int main()
     }
 
     c->simulate();
+#ifdef LOOP_ALL
     cout << endl;
+  }
+#endif
 
   return 0;
 }

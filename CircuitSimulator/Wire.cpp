@@ -12,6 +12,7 @@ Wire::Wire(int i, char n)
   index = i;
   name = n;
   value = 'X';
+  history = "";
 }
 
 Wire::~Wire()
@@ -27,12 +28,21 @@ void Wire::setValue(char v)
   value = v;
 }
 
-void Wire::setHistory(char c)
+void Wire::addHistory(char c)
 {
-  history.push_back(c);
+  char v = c;
+  if (c == '1')
+  {
+    v = '-';
+  }
+  else if (c == '0')
+  {
+    v = '_';
+  }
+  history.push_back(v);
 }
 
-void Wire::setDrives(Gate *g)
+void Wire::addDriven(Gate *g)
 {
   drives.push_back(g);
 }
@@ -65,15 +75,16 @@ void Wire::stretchHistory(int time)
     char c = hSize > 0 ? history[hSize - 1] : 'X';
     for (int j = history.length(); j < time; j++)
     {
-      setHistory(c);
+      addHistory(c);
     }
   }
-  else if (history.length() > time){
+  else if (history.length() > time)
+  {
     history = history.substr(0, time);
   }
 }
 
 void Wire::printHistory() const
 {
-  cout << name << " " << history << endl;
+  cout << name << ": " << history << endl;
 }

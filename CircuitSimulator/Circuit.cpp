@@ -72,7 +72,7 @@ bool Circuit::parseCircuit(string path)
       Gate *g = new Gate(GateType::NOT, delay, inWire, nullptr, outWire);
 
       // Makes sure the wire knows which gate it is plugged into
-      inWire->setDrives(g);
+      inWire->addDriven(g);
       gates.push_back(g);
     }
     else
@@ -128,8 +128,8 @@ bool Circuit::parseCircuit(string path)
       gates.push_back(newGate);
 
       // making sure the wires know which gates they are hooked up to
-      in1Wire->setDrives(newGate);
-      in2Wire->setDrives(newGate);
+      in1Wire->addDriven(newGate);
+      in2Wire->addDriven(newGate);
     }
   }
 
@@ -224,125 +224,49 @@ void Circuit::addWire(int index, Wire *wire)
 
 void Circuit::simulate()
 {
-#ifdef FILE_DEBUG
-  // Kept for testing circuit and vector file parsing
-  cout << "Wire info" << endl;
-  for (Wire *w : wires)
-  {
-    if (w != NULL)
-    {
-      cout << w->getName() << " Drives: ";
-      for (Gate *g : w->getDrives())
-      {
-        cout << g->getDelay() << " " << endl;
-      }
-    }
-  }
-  cout << "Gates info" << endl;
-  for (Gate *g : gates)
-  {
-    cout << "Delay: " << g->getDelay() << " Input 1: " << g->getInput(1)->getName() << " Output: " << g->getOutput()->getName() << endl;
-  }
-
-  vector<Event> events;
+  int maxTime = -1;
   while (!queue.empty())
   {
     Event e = queue.top();
-    cout << "OOA: " << e.getOOA() << " TIME: " << e.getTime() << " WIRE: " << e.getWire()->getName() << " Value: " << e.getValue() << endl;
     queue.pop();
-    events.push_back(e);
-  }
-  for (Event e : events)
-  {
-    queue.push(e);
-  }
-#endif
+    Wire *w = e.getWire();
+    char v = e.getValue();
+    char original = w->getValue();
+    w->setValue(v);
 
-  // The last event's time of occurence
-  int maxTime = 0;
+    w->stretchHistory(e.getTime());
+    w->addHistory(v);
 
-  while (!queue.empty())
-  {
-    // get the first event and the wire it is associated to
-    Event e = queue.top();
     if (e.getTime() > 61)
     {
       break;
     }
 
-#ifdef CIRCUIT_DEBUG
-    cout << "Handling event: " << e.getWire()->getName() << " --> " << e.getValue() << " [" << e.getTime() << "]" << endl;
-#endif
-    queue.pop();
-    Wire *w = e.getWire();
-    w->setValue(e.getValue());
-    if (maxTime < e.getTime())
-    {
-      maxTime = e.getTime() + 1;
+    if (maxTime < e.getTime()){
+      maxTime = e.getTime();
     }
 
-    // Loop through all drives
-    vector<Gate *> wd = w->getDrives();
-    for (Gate *g : wd)
+    for (Gate *g : w->getDrives())
     {
-      char result = g->evaluate();
-      if (g->getOutput()->getValue() != result)
+      char newV = g->evaluate();
+      w->setValue(original);
+      if (g->evaluate() != newV)
       {
-#ifdef CIRCUIT_DEBUG
-        cout << "Difference in gate result -- Time: " << e.getTime() << " Result: " << result << " New event time: " << (e.getTime() + g->getDelay()) << endl;
-#endif
-
-        // create a new event that was caused by this change
-        queue.push(Event(ooa, (e.getTime() + g->getDelay()), g->getOutput(), result));
-        ooa++;
-
-        vector<Gate *> outputDrives = g->getOutput()->getDrives();
-        if (find(outputDrives.begin(), outputDrives.end(), g) != outputDrives.end())
-        {
-#ifdef CIRCUIT_DEBUG
-          cout << "Gate self-feed detected -- Wire: " << g->getOutput()->getName() << endl;
-#endif
-          queue.push(Event(ooa, (e.getTime() + 1), g->getOutput(), 'X'));
-          ooa++;
-        }
+        // cout << newV << endl;
+        queue.push(Event(ooa, e.getTime() + g->getDelay(), g->getOutput(), newV));
+        ++ooa;
       }
+      w->setValue(v);
     }
-    w->stretchHistory(e.getTime());
-    char val = w->getValue();
-    char c = 'X';
-    if (val == '1')
-    {
-      c = '-';
-    }
-    else if (val == '0')
-    {
-      c = '_';
-    }
-    else
-    {
-      c = 'X';
-    }
-    w->setHistory(c);
   }
 
-#ifdef CIRCUIT_DEBUG
-  cout << "DONE SIMULATING... PRINTING HISTORY:" << endl;
-#endif
+  // Print wire history
   for (Wire *w : wires)
   {
-    if (w != NULL)
+    if (w != nullptr && w->getName() != '@')
     {
-      if (w->getName() != '@')
-      {
-        cout << w->getName() << ": ";
-        w->stretchHistory(maxTime);
-        string h = w->getHistory();
-        if (h.length() > 61)
-        {
-          h = h.substr(0, 61);
-        }
-        cout << h << endl;
-      }
+      w->stretchHistory(maxTime + 1);
+      w->printHistory();
     }
   }
 }
