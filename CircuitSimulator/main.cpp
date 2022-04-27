@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-#define LOOP_ALL
+//#define LOOP_ALL
 
 int main()
 {
@@ -16,11 +16,11 @@ int main()
 #endif
     // gets circuit file name
     // cout << "Enter a circuit file name: ";
-    string circuitPath = "circuits/circuit" + to_string(i) + ".txt";
+    string circuitPath = "circuits/circuit5.txt";
     // cin >> circuitPath;
     // gets vector file name
     // cout << "Enter a vector file name: ";
-    string valuePath = "circuits/circuit" + to_string(i) + "_v.txt";
+    string valuePath = "circuits/circuit5_v.txt";
     // cin >> valuePath;
 
     // parses files

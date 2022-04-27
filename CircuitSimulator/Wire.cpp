@@ -28,7 +28,7 @@ void Wire::setValue(char v)
   value = v;
 }
 
-void Wire::addHistory(char c)
+void Wire::setHistory(char c)
 {
   char v = c;
   if (c == '1')
@@ -42,7 +42,7 @@ void Wire::addHistory(char c)
   history.push_back(v);
 }
 
-void Wire::addDriven(Gate *g)
+void Wire::setDrives(Gate *g)
 {
   drives.push_back(g);
 }
@@ -75,7 +75,7 @@ void Wire::stretchHistory(int time)
     char c = hSize > 0 ? history[hSize - 1] : 'X';
     for (int j = history.length(); j < time; j++)
     {
-      addHistory(c);
+      setHistory(c);
     }
   }
   else if (history.length() > time)

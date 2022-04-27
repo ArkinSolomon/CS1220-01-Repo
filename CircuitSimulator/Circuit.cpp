@@ -72,7 +72,7 @@ bool Circuit::parseCircuit(string path)
       Gate *g = new Gate(GateType::NOT, delay, inWire, nullptr, outWire);
 
       // Makes sure the wire knows which gate it is plugged into
-      inWire->addDriven(g);
+      inWire->setDrives(g);
       gates.push_back(g);
     }
     else
@@ -128,8 +128,8 @@ bool Circuit::parseCircuit(string path)
       gates.push_back(newGate);
 
       // making sure the wires know which gates they are hooked up to
-      in1Wire->addDriven(newGate);
-      in2Wire->addDriven(newGate);
+      in1Wire->setDrives(newGate);
+      in2Wire->setDrives(newGate);
     }
   }
 
@@ -235,7 +235,7 @@ void Circuit::simulate()
     w->setValue(v);
 
     w->stretchHistory(e.getTime());
-    w->addHistory(v);
+    w->setHistory(v);
 
     if (e.getTime() > 61)
     {
@@ -248,12 +248,12 @@ void Circuit::simulate()
 
     for (Gate *g : w->getDrives())
     {
-      char newV = g->evaluate();
+      char result = g->evaluate();
       w->setValue(original);
-      if (g->evaluate() != newV)
+      if (g->evaluate() != result)
       {
         // cout << newV << endl;
-        queue.push(Event(ooa, e.getTime() + g->getDelay(), g->getOutput(), newV));
+        queue.push(Event(ooa, e.getTime() + g->getDelay(), g->getOutput(), result));
         ++ooa;
       }
       w->setValue(v);
