@@ -15,13 +15,13 @@ int main()
   int i = 0;
 #endif
     // gets circuit file name
-    // cout << "Enter a circuit file name: ";
+    cout << "Enter a circuit file name: ";
     string circuitPath = "circuit4.txt";
-    // cin >> circuitPath;
+    cin >> circuitPath;
     // gets vector file name
-    // cout << "Enter a vector file name: ";
+    cout << "Enter a vector file name: ";
     string valuePath = "circuit4_v.txt";
-    // cin >> valuePath;
+    cin >> valuePath;
 
     // parses files
     Circuit *c = new Circuit();
