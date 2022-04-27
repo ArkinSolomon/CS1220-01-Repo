@@ -1,7 +1,8 @@
 // Author:  Olivia Walrath and Arkin Solomon
-// Date:    4/11/20
-// Purpose: To define the funtions in the Gate class
-// 4/11/2022 -OW/AS -Defined all of the functions
+// Date:    4/27/22
+// Purpose: To declare the funtions in the Circuit class
+// 4/27/2022 -OW/AS -Fix logic, finish project
+
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
 
@@ -22,7 +23,7 @@ public:
   bool parseValues(string path);
   Wire *getWire(int i);
   Wire *getWireByName(char n);
-  void addWire(int index, Wire* wire);
+  void addWire(int index, Wire *wire);
   void simulate();
 
 private:

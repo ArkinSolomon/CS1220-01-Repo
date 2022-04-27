@@ -1,3 +1,0 @@
-VECTOR JacubecCircuit
-INPUT A  0  0
-INPUT A  1  1

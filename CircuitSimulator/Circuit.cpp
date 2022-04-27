@@ -1,7 +1,7 @@
 // Author:  Olivia Walrath and Arkin Solomon
-// Date:    4/11/20
-// Purpose: To define the funtions in the Gate class
-// 4/11/2022 -OW/AS -Defined all of the functions
+// Date:    4/27/22
+// Purpose: To define the funtions in the Circuit class
+// 4/27/2022 -OW/AS -Fix logic, finish project
 
 #define FILE_DEBUG
 #define CIRCUIT_DEBUG
@@ -227,7 +227,7 @@ void Circuit::simulate()
   int maxTime = -1;
   while (!queue.empty())
   {
-    //Get the event
+    // Get the event
     Event e = queue.top();
     queue.pop();
     Wire *w = e.getWire();
@@ -238,18 +238,19 @@ void Circuit::simulate()
     w->stretchHistory(e.getTime());
     w->setHistory(v);
 
-    //Check if we've gone on long enough
+    // Check if we've gone on long enough
     if (e.getTime() > 61)
     {
       break;
     }
 
-    //Keep track of the maximum time
-    if (maxTime < e.getTime()){
+    // Keep track of the maximum time
+    if (maxTime < e.getTime())
+    {
       maxTime = e.getTime();
     }
 
-    //Loop through all drives
+    // Loop through all drives
     for (Gate *g : w->getDrives())
     {
       char result = g->evaluate();
@@ -272,25 +273,29 @@ void Circuit::simulate()
       w->printHistory();
     }
   }
-  //add time line at bottom
+  // add time line at bottom
   cout << "   0";
   int i = 0;
   int j = 1;
-  size_t lengthStr = wires.at(1)->getHistory().length();
-  while(i < lengthStr) {
-      if (j == 5) {
-          cout << j;
-          j ++;
-      }
-      else if (j == 10)
-      {
-          cout << "0";
-          j=0;
-      }
-      else {
-          cout << "-";
-          j++;
-          i++;
-      }
+  size_t lengthStr = wires.at(1)->getHistory().length() - 2;
+  while (i < lengthStr)
+  {
+    if (j == 5)
+    {
+      cout << j;
+      j++;
+    }
+    else if (j == 10)
+    {
+      cout << "0";
+      j = 0;
+    }
+    else
+    {
+      cout << "-";
+      j++;
+      i++;
+    }
   }
+  cout << endl;
 }

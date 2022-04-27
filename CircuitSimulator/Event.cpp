@@ -1,39 +1,46 @@
 // Author:  Olivia Walrath and Arkin Solomon
-// Date:    4/15/20
-// Purpose: To track events for easy strorage in queue
-// 4/15/2022 -OW/AS -Defined all of the functions
+// Date:    4/27/22
+// Purpose: To define the funtions in the Event class
+// 4/27/2022 -OW/AS -Fix logic, finish project
+
 #include "Event.h"
 #include <string>
 
-Event::Event(int ooa, int t, Wire* w, char v)
+Event::Event(int ooa, int t, Wire *w, char v)
 {
-	orderOfArrival = ooa;
-	time = t;
-	wire = w;
-	value = v;
+  orderOfArrival = ooa;
+  time = t;
+  wire = w;
+  value = v;
 }
 
-int Event::getOOA() const {
-	return orderOfArrival;
+int Event::getOOA() const
+{
+  return orderOfArrival;
 }
 
-int Event::getTime()const {
-	return time;
+int Event::getTime() const
+{
+  return time;
 }
 
-Wire* Event::getWire() const {
-	return wire;
+Wire *Event::getWire() const
+{
+  return wire;
 }
 
-char Event::getValue() const {
-	return value;
+char Event::getValue() const
+{
+  return value;
 }
 
-bool operator<(const Event& e1, const Event& e2) {
+bool operator<(const Event &e1, const Event &e2)
+{
 
-	if (e1.getTime() == e2.getTime()) {
-		return e1.getOOA() > e2.getOOA();
-	}
-  
-	return e1.getTime() > e2.getTime();
+  if (e1.getTime() == e2.getTime())
+  {
+    return e1.getOOA() > e2.getOOA();
+  }
+
+  return e1.getTime() > e2.getTime();
 }

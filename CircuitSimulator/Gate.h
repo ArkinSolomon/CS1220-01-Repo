@@ -1,7 +1,7 @@
 // Author:  Olivia Walrath and Arkin Solomon
-// Date:    4/11/20
-// Purpose: To define the funtions in the Wire class
-// 4/8/2022 -OW/AS -Defined all of the functions
+// Date:    4/27/22
+// Purpose: To declare the funtions in the Gate class
+// 4/27/2022 -OW/AS -Fix logic, finish project
 
 #ifndef GATE_H
 #define GATE_H
