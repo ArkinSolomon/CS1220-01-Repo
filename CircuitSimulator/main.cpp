@@ -6,36 +6,20 @@ using namespace std;
 
 int main()
 {
-#ifdef LOOP_ALL
-  for (int i = 0; i <= 6; ++i)
+  // Get circuit and vector file name
+  cout << "Enter a circuit file name: ";
+  string circuitPath, valuePath;
+  cin >> circuitPath >> valuePath;
+
+  // Parses files
+  Circuit *c = new Circuit();
+  if ((!c->parseCircuit(circuitPath)) || (!c->parseValues(valuePath)))
   {
-    if (i == 3)
-      continue;
-#else
-  int i = 0;
-#endif
-    // gets circuit file name
-    // cout << "Enter a circuit file name: ";
-    string circuitPath = "circuits/circuit" + to_string(i) + ".txt";
-    // cin >> circuitPath;
-    // gets vector file name
-    // cout << "Enter a vector file name: ";
-    string valuePath = "circuits/circuit" + to_string(i) + "_v.txt";
-    // cin >> valuePath;
-
-    // parses files
-    Circuit *c = new Circuit();
-    if ((!c->parseCircuit(circuitPath)) || (!c->parseValues(valuePath)))
-    {
-      delete c;
-      return 1;
-    }
-
-    c->simulate();
-#ifdef LOOP_ALL
-    cout << endl;
+    delete c;
+    return 1;
   }
-#endif
 
+  //Start simulation
+  c->simulate();
   return 0;
 }

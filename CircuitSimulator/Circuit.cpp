@@ -227,6 +227,7 @@ void Circuit::simulate()
   int maxTime = -1;
   while (!queue.empty())
   {
+    //Get the event
     Event e = queue.top();
     queue.pop();
     Wire *w = e.getWire();
@@ -237,22 +238,24 @@ void Circuit::simulate()
     w->stretchHistory(e.getTime());
     w->addHistory(v);
 
+    //Check if we've gone on long enough
     if (e.getTime() > 61)
     {
       break;
     }
 
+    //Keep track of the maximum time
     if (maxTime < e.getTime()){
       maxTime = e.getTime();
     }
 
+    //Loop through all drives
     for (Gate *g : w->getDrives())
     {
       char newV = g->evaluate();
       w->setValue(original);
       if (g->evaluate() != newV)
       {
-        // cout << newV << endl;
         queue.push(Event(ooa, e.getTime() + g->getDelay(), g->getOutput(), newV));
         ++ooa;
       }
